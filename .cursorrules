@@ -1,0 +1,254 @@
+# Cursor Rules
+
+## Instructions
+
+- Record fixes for mistakes or corrections to avoid repetition in the `Lessons` section.
+- Organize thoughts and plan steps before starting a task in the `Scratchpad` section.
+- Clear old tasks if necessary.
+- Use todo markers for progress tracking:
+  - `[X]` Completed tasks
+  - `[ ]` Pending tasks
+- Update Scratchpad after completing subtasks.
+- Reflect and plan after milestones for better task management.
+- Always refer to Scratchpad before planning the next step.
+
+## Lessons
+
+## Notes
+### Resend Setup
+1. Đăng ký tài khoản tại https://resend.com
+2. Lấy API key và thêm vào file `.env`:
+   ```
+   RESEND_API_KEY=your_api_key_here
+   ```
+3. Thêm domain email vào Resend dashboard
+4. Test email với route: /api/email
+
+### Uploadthing Setup
+1. Đăng ký tài khoản tại https://uploadthing.com
+2. Lấy API keys và thêm vào file `.env`:
+   ```
+   UPLOADTHING_SECRET=your_secret_key
+   UPLOADTHING_APP_ID=your_app_id
+   ```
+3. Test upload với component UploadButton
+4. API route có sẵn tại: /api/uploadthing
+
+### Vercel Deployment
+1. Chuẩn bị project:
+   - Đảm bảo project có file `package.json` với scripts build và start
+   - Kiểm tra tất cả biến môi trường trong `.env` đã được cấu hình
+   - Commit code lên GitHub repository
+
+2. Deploy lên Vercel:
+   - Đăng nhập vào https://vercel.com
+   - Import GitHub repository
+   - Cấu hình build settings:
+     - Framework Preset: Next.js
+     - Build Command: `pnpm build`
+     - Output Directory: `.next`
+   
+3. Cấu hình Environment Variables:
+   - Thêm tất cả biến từ `.env`:
+     ```
+     DATABASE_URL=
+     AUTH_SECRET=
+     NEXTAUTH_URL=
+     NEXTAUTH_SECRET=
+     GOOGLE_CLIENT_ID=
+     GOOGLE_CLIENT_SECRET=
+     GITHUB_CLIENT_ID=
+     GITHUB_CLIENT_SECRET=
+     STRIPE_SECRET_KEY=
+     STRIPE_PUBLISHABLE_KEY=
+     STRIPE_WEBHOOK_SECRET=
+     RESEND_API_KEY=
+     ```
+   - Đối với DATABASE_URL, sử dụng connection string của database production
+
+4. Cấu hình Domain:
+   - Thêm custom domain nếu cần
+   - Cập nhật NEXTAUTH_URL với domain chính thức
+   - Cập nhật Callback URLs trong OAuth providers
+
+5. Cấu hình Webhook:
+   - Cập nhật Stripe webhook endpoint với URL production
+   - Tạo webhook secret mới cho môi trường production
+   - Cập nhật STRIPE_WEBHOOK_SECRET trong Vercel
+
+## Scratchpad
+
+#### 1. Project Setup & Initial Configuration [X]
+- [X] Initialize Next.js 15 project with TypeScript
+- [X] Set up project structure and folders
+- [X] Configure ESLint and Prettier
+- [X] Install and configure dependencies:
+  - [X] Shadcn UI components (button, card, form, input)
+  - [X] Lucide icons
+  - [X] Zod for validation
+  - [X] Zustand for state management
+  - [X] Recharts for analytics
+  - [X] Resend for emails
+  - [X] Uploadthing for file uploads
+  - [X] Prisma ORM
+  - [X] SQLite database (development)
+  - [X] NextAuth.js beta for authentication
+  - [X] Stripe for payments
+
+### 2. Database and Authentication [ ]
+
+- [ ] Set up PostgreSQL database
+- [ ] Configure Prisma schema:
+  - User model
+  - Product model
+  - Category model
+  - Order model
+  - Review model
+  - Cart model
+- [ ] Implement NextAuth.js authentication:
+  - Email/Password
+  - OAuth providers (Google, GitHub)
+  - JWT handling
+  - Protected routes
+
+### 3. Core Features - Customer Side [ ]
+
+- [ ] Home Layout:
+  - Create `(home)` folder in `app` directory
+  - Header with logo, search bar, and navigation
+  - Footer with links and social media
+- [ ] Homepage:
+  - banner carousel
+  - latest products
+- [ ] Products Catalog:
+  - Sidebar with categories and filters
+  - Search results
+  - Product grid
+  - Pagination
+- [ ] Product pages:
+  - Create product detail page layout
+  - Implement image gallery with thumbnails
+  - Add product information section:
+    - Title, price, description
+    - Stock status
+    - Add to cart button
+  - Reviews and ratings section:
+    - Display existing reviews
+    - Add review form for authenticated users
+    - Star rating component
+  - Related products section:
+    - Show products from same category
+    - Product card carousel
+- [ ] Shopping cart:
+  - Add/remove items
+  - Update quantities
+  - Cart persistence
+- [ ] Checkout process:
+  - Shipping information
+  - Payment integration (Stripe)
+  - Order confirmation
+- [ ] User dashboard:
+  - Order history
+  - Profile management
+  - Saved addresses
+  - Wishlist
+
+### 4. Admin Dashboard [ ]
+
+- [ ] Admin authentication and authorization
+- [ ] Dashboard overview:
+  - [ ] Layout and Structure:
+    - [ ] Create admin dashboard layout with sidebar navigation
+    - [ ] Implement responsive grid for dashboard widgets
+    - [ ] Add loading states and error boundaries
+  - [ ] Key Metrics Cards:
+    - [ ] Total revenue widget with real data
+    - [ ] Total orders widget with real data
+    - [ ] Total customers widget with real data
+    - [ ] Average order value widget with real data
+  - [ ] Sales Analytics:
+    - [ ] Revenue Chart:
+      - [ ] Implement line chart using Recharts
+      - [ ] Add daily/weekly/monthly/yearly filters
+      - [ ] Show revenue trends over time
+      - [ ] Add tooltip with detailed information
+    - [ ] Order Statistics:
+      - [ ] Bar chart for order volume
+      - [ ] Order status distribution
+      - [ ] Peak ordering times
+  - [ ] Recent Orders Table:
+    - [ ] Implement data table with columns:
+      - [ ] Order ID
+      - [ ] Customer name
+      - [ ] Order total
+      - [ ] Status
+      - [ ] Date
+    - [ ] Add sorting and filtering
+    - [ ] Quick actions (view, process, update status)
+  - [ ] Low Stock Alerts:
+    - Products with stock below threshold
+    - Quick restock actions
+    - Stock level indicators
+  - [ ] Top Products:
+    - Best-selling products list
+    - Revenue by product
+    - Stock status
+  - [ ] Customer Insights:
+    - New vs returning customers
+    - Customer acquisition chart
+    - Top customers by revenue
+  - [ ] Real-time Updates:
+    - Implement WebSocket connection
+    - Live order notifications
+    - Stock level updates
+  - [ ] Export and Reports:
+    - CSV/PDF export functionality
+    - Custom date range selection
+    - Report generation
+- [ ] Product management:
+  - CRUD operations
+  - Bulk actions
+  - Image upload (Uploadthing)
+- [ ] Order management:
+  - Order processing
+  - Status updates
+  - Refund handling
+- [ ] User management:
+  - Customer list
+  - Admin privileges
+  - User actions
+
+### 5. Advanced Features [ ]
+
+- [ ] Real-time notifications
+- [ ] Email system (Resend):
+  - Order confirmations
+  - Shipping updates
+  - Password reset
+- [ ] Search optimization
+- [ ] Performance optimization:
+  - Image optimization
+  - Caching strategies
+  - API optimization
+- [ ] Analytics and reporting
+
+### 6. Testing and Deployment [ ]
+
+- [ ] Unit testing
+- [ ] Integration testing
+- [ ] E2E testing
+- [ ] Security audit
+- [ ] Production deployment:
+  - Environment setup
+  - CI/CD pipeline
+  - Monitoring
+  - Backup strategy
+
+### 7. Documentation [ ]
+
+- [ ] API documentation
+- [ ] User guide
+- [ ] Admin documentation
+- [ ] Deployment guide
+
+
